@@ -41,7 +41,42 @@ unsigned char buffer[BUFFER_SIZE];
 
 
 
-
+void main (void){
+  int x,y,d;
+  char *file[3]={"Music1.pt3","Music2.pt3","Music3.pt3"};
+  int size[3]={8417,2501,4637};
+  y=0;
+  x=0;
+  d=2;
+  Screen(8);
+  //int FT_LoadSc8Image(char *file_name, unsigned int start_Y, char *buffer)
+  FT_LoadSc8Image("LOADER.S08", 256, buffer);
+  if(ReadMSXtype()==3)  // IF MSX is Turbo-R Switch CPU to Z80 Mode
+  {
+      ChangeCPU(3);
+  }
+  InitPSG();
+  //int FT_LoadData(char *file_name, char *buffer, int size, int skip)
+  FT_LoadData(file[0], buffer, size[0], 0);
+  PT3Init (buffer+99, 0);
+  Cls();
+  //Main loop
+  while (1)
+  {
+    Halt();
+    DisableInterupt();
+    //Prepara el bloque de datos que se van a reproducir
+    PT3Rout();
+    //Reproduce el bloque de datos escribiendo en el PSG
+    PT3Play();
+    EnableInterupt();
+    //FT_RandomNumber genera un número aleatorio
+    x=FT_RandomNumber(0,255);
+    y=FT_RandomNumber(0,212);
+    //Copia cuadraditos de 8x8 pixeles al azar todo el rato
+    FT_ScreenCopy(x, y, 8, 8, x, y, 1 , 0, 0);
+  }
+}
 
 
 
@@ -205,39 +240,3 @@ char FT_RandomNumber (char a, char b)
     return(random);
 }
 
-void main (void){
-  int x,y,d;
-  char *file[3]={"Music1.pt3","Music2.pt3","Music3.pt3"};
-  int size[3]={8417,2501,4637};
-  y=0;
-  x=0;
-  d=2;
-  Screen(8);
-  //int FT_LoadSc8Image(char *file_name, unsigned int start_Y, char *buffer)
-  FT_LoadSc8Image("LOADER.S08", 256, buffer);
-  if(ReadMSXtype()==3)  // IF MSX is Turbo-R Switch CPU to Z80 Mode
-  {
-      ChangeCPU(3);
-  }
-  InitPSG();
-  //int FT_LoadData(char *file_name, char *buffer, int size, int skip)
-  FT_LoadData(file[0], buffer, size[0], 0);
-  PT3Init (buffer+99, 0);
-  Cls();
-  //Main loop
-  while (1)
-  {
-    Halt();
-    DisableInterupt();
-    //Prepara el bloque de datos que se van a reproducir
-    PT3Rout();
-    //Reproduce el bloque de datos escribiendo en el PSG
-    PT3Play();
-    EnableInterupt();
-    //FT_RandomNumber genera un número aleatorio
-    x=FT_RandomNumber(0,255);
-    y=FT_RandomNumber(0,212);
-    //Copia cuadraditos de 8x8 pixeles al azar todo el rato
-    FT_ScreenCopy(x, y, 8, 8, x, y, 1 , 0, 0);
-  }
-}
