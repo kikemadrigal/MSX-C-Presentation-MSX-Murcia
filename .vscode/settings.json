@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.asm": "z80",
+        "*.s": "z80",
+        "pt3replayer.h": "c",
+        "vars_msxsystem.h": "c"
+    }
+}
