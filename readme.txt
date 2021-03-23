@@ -1,7 +1,7 @@
 
 # Play online
 
-https://kikemadrigal.github.io/MSX-C-Presentation-MSX-Murcia/
+https://kikemadrigal.github.io/MSX-C-Presentation-MSX-Murcia/?disk=disco.dsk
 
 # Instalación
 
